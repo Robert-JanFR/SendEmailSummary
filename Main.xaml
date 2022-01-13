@@ -89,7 +89,9 @@
     </Assign>
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Read Emails workflow" sap:VirtualizedContainerService.HintSize="334,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Email\Read Emails.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InOutArgument x:TypeArguments="x:String" x:Key="in_out_ManagerMail">[out_ManagerMail]</InOutArgument>
+        <InOutArgument x:TypeArguments="x:String" x:Key="io_ManagerMail">
+          <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="out_ManagerMail" />
+        </InOutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
   </Sequence>

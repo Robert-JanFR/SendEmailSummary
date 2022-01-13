@@ -1,11 +1,11 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="Read_Emails" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:um="clr-namespace:UiPath.Mail;assembly=UiPath.Mail" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property Name="in_out_ManagerMail" Type="InOutArgument(x:String)" />
+    <x:Property Name="io_ManagerMail" Type="InOutArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>772.8,712.4</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>772.8,846</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Read_Emails_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="33">
@@ -76,7 +76,7 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Read the messages from outlook and pass them to the Create Email workflow" DisplayName="Read_Emails" sap:VirtualizedContainerService.HintSize="479.6,647.2" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Read the messages from outlook and pass them to the Create Email workflow" DisplayName="Read_Emails" sap:VirtualizedContainerService.HintSize="479.6,780.8" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="Messages" />
     </Sequence.Variables>
@@ -86,6 +86,7 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="437.6,93.6" sap2010:WorkflowViewState.IdRef="LogMessage_5" Message="[&quot;Reading Emails...&quot;]" />
     <TryCatch sap2010:Annotation.AnnotationText="Check if the inbox has at least 10 Emails, if not, the workflow terminates and the error is logged in the console." DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="437.6,370.8" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -126,10 +127,14 @@
     </TryCatch>
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Create Email workflow" sap:VirtualizedContainerService.HintSize="437.6,113.2" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Email\Create Email.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InOutArgument x:TypeArguments="x:String" x:Key="in_out_ManagerEmail">[in_out_ManagerMail]</InOutArgument>
         <OutArgument x:TypeArguments="x:String" x:Key="out_Subject" />
         <OutArgument x:TypeArguments="x:String" x:Key="out_Body" />
-        <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_Messages">[Messages]</InArgument>
+        <InArgument x:TypeArguments="scg:List(snm:MailMessage)" x:Key="in_Messages">
+          <mva:VisualBasicValue x:TypeArguments="scg:List(snm:MailMessage)" ExpressionText="Messages" />
+        </InArgument>
+        <InOutArgument x:TypeArguments="x:String" x:Key="io_ManagerEmail">
+          <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="io_ManagerMail" />
+        </InOutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
   </Sequence>
